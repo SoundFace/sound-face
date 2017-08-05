@@ -1,10 +1,10 @@
 <ion-content padding id="ioncontent" class="bg-style">
 
   <ion-fab left class="mainmenu" >
-    <button ion-fab class="tabs"><ion-icon name="arrow-dropright"></ion-icon></button>
+    <button ion-fab class="tabs" color="light" outline><ion-icon name="menu"></ion-icon></button>
     <ion-fab-list side="right">
-      <button ion-fab (click)="backToLogin()"><img src  = "assets/img/logout.png" alt="logout" style="width:35px;height:30px;"></button>
-        <button ion-fab (click)="listOfMusic()"><ion-icon name="musical-notes" class="icon musical-notes custom-icon"></ion-icon></button>
+      <button ion-fab (click)="backToLogin()"><img src="assets/img/logout.png" alt="logout" style="width:35px;height:30px;"></button>
+      <button ion-fab (click)="showPlaylist()"><ion-icon name="musical-notes" class="icon musical-notes custom-icon"></ion-icon></button>
       <button ion-fab (click)="albums()"><ion-icon name="image" class="icon image image-icon"></ion-icon></button>
     </ion-fab-list>
   </ion-fab>
@@ -19,20 +19,29 @@
   </ion-card>
   <button ion-button round hidden id ="secondnotification" class="buttonok">Ok!</button>
 
-  <ion-fab center bottom>
-    <button ion-fab (click)="takePicture()" color="dark" round icon-only>
-      <ion-icon name='camera'></ion-icon>
+  <ion-fab middle center>
+    <button ion-button (click)="takePicture()" color="dark" round large icon-only>
+      <ion-icon name='camera' large></ion-icon>
     </button>
   </ion-fab>
 
+  <ion-fab bottom right>
+    <button ion-button (click)="getFromLibrary()" color="light" outline round icon-start>
+      <ion-icon name='photos'></ion-icon>
+      Photos
+    </button>
+  </ion-fab>
+
+  <!--
   <ion-fab bottom right>
     <button ion-fab (click)="switchCamera()" color="dark" round icon-only>
       <ion-icon name='switch'></ion-icon>
     </button>
   </ion-fab>
-
+  
   <div class="viewscope">
     <img id="view" width="100%" />
   </div>
+  -->
 
 </ion-content>

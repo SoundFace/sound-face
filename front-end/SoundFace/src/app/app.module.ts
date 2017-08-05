@@ -11,24 +11,28 @@ import {
   CameraPreviewDimensions
 } from '@ionic-native/camera-preview';
 import { HttpModule } from '@angular/http';
+import { NativeAudio } from '@ionic-native/native-audio';
 
-import { MyApp } from './app.component';
+import { SoundFace } from './app.component';
 import { HomePage } from '../pages/home/home';
+import { Playlist } from "../pages/playlist/playlist";
 
 @NgModule({
   declarations: [
-    MyApp,
-    HomePage
+    SoundFace,
+    HomePage,
+    Playlist
   ],
   imports: [
     BrowserModule,
     HttpModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(SoundFace)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp,
-    HomePage
+    SoundFace,
+    HomePage,
+    Playlist
   ],
   providers: [
     StatusBar,
@@ -36,6 +40,7 @@ import { HomePage } from '../pages/home/home';
     Camera,
     CameraPreview,
     HttpModule,
+    NativeAudio,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

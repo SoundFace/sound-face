@@ -10,18 +10,16 @@ import {
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { NativeAudio } from '@ionic-native/native-audio';
 import 'rxjs/add/operator/map';
-import { Playlist } from "../playlist/playlist";
 
 @Component({
-  selector: 'page-home',
-  templateUrl: 'home.html'
+  selector: 'page-playlist',
+  templateUrl: 'playlist.html'
 })
-export class HomePage {
+export class Playlist {
 
   public lastImg: string;
   public myEmotion: string;
-
-  captureDataUrl: string;
+  public moodplaylist;
 
   constructor(public navCtrl: NavController,
     private camera: Camera,
@@ -30,6 +28,24 @@ export class HomePage {
     private nativeAudio: NativeAudio) {
     this.nativeAudio.preloadSimple('cameraSnap', 'assets/audio/click.mp3');
     // this.startCamera();
+    this.moodplaylist = [
+      {
+        name: 'Fake Magic',
+        track_href: 'https://api.spotify.com/v1/tracks/0lvXfUug5YmOHOyHgXufqF'
+      },
+      {
+        name: 'Me',
+        track_href: 'https://api.spotify.com/v1/tracks/6HyIbRJldchSKEepzbRARN'
+      },
+      {
+        name: 'Know No Better (feat. Quavo)',
+        track_href: 'https://api.spotify.com/v1/tracks/6UXoE1DEpHFwmPT1fGS7av'
+      },
+      {
+        name: 'Arty Boy - Joe Goddard Remix',
+        track_href: 'https://api.spotify.com/v1/tracks/7gDuuI365KmgZ7agDpjiRm'
+      }
+    ];
   }
 
   startCamera(){
@@ -97,8 +113,12 @@ export class HomePage {
       });
   }
 
-  showPlaylist() {
-    this.navCtrl.push(Playlist);
+  playTrack(song) {
+    console.log("AYYYYYY");
+  }
+
+  goHome() {
+    this.navCtrl.pop();
   }
 
 }
