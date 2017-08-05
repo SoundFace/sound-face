@@ -11,7 +11,6 @@ import {
   CameraPreviewDimensions
 } from '@ionic-native/camera-preview';
 import { HttpModule } from '@angular/http';
-import { LocalNotifications } from '@ionic-native/local-notifications';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
