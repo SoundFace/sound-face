@@ -152,7 +152,11 @@ var spotifyApi = new SpotifyWebApi({
     redirectUri : redirect_uri
 });
 
-spotifyApi.setAccessToken('BQCGLeUPIY2-fbuH_egXhajJJ3GiRu5SuUhlCm9eSSZlEKQ4xwF6Sj-sOW3U_GRP-XrJktOoPQKd6_ZNUHvcCWaZYkFjxF_aqycueOH_GWjHTY81SE0GQ-y5KDlZnmvzjVz0PZZcTaR4pQt-v4QkoJejTR2pxODMTTK-qHjhDijbE7b0K9U6miXVrkSw4_Y&refresh_token=AQCjqJL3DAIYXkj-3ccD9zQCoFkLMAdORb0OMndAzoVoHudGmjjc2aEHx-8IML0D4_91G9bJIpo6psXCv6eSKldximw-1CpvCTIIbNvf4OkS20JiHy7WwcrRiy2IR3LLf84');
+spotifyApi.setAccessToken('BQAEwa4vANdPkHs4DhFX0Jib2dD3yViXdJOUJ3OqGt3--UwPdtKNXfpj3uJWn4oMmpCSYsgXXvdc_nOW3JCrMBhNN2WvoN7jLrdIvuzu7H5M3xnIkUxFwyU0JiPmIcrEJAiQw9v8094NQPge3xIrS_jLaO-ZHUR-v_pSQRSVau6uElnGhZ278TV3CnL3k2s&refresh_token=AQCoptWm-OP_5n5REh4mXAlI9Yo9qAjjKFSFy_OjhoXDYPMxeF3-0eJHWtWCHIIunSuiug1SMmBwNamdAOvv1R4q6eQ5RW6C50Vostem-RO1LOt2ROafijM0zSCRgXeQHm4');
+
+var totalPlaylists = 0;
+var songIds = [];
+var songDetails = {};
 
 spotifyApi.getPlaylistsForCategory('party', {
     country: 'AU',
@@ -160,26 +164,86 @@ spotifyApi.getPlaylistsForCategory('party', {
     offset : 0
 })
     .then(function(data) {
-        console.log(data.body);
         var playlists = data.body.playlists.items;
-        for(var i = 0; i <playlists.length; i++){
-            console.log(playlists[i]);
+        totalPlaylists = playlists.length;
+        for(var i = 0; i < playlists.length; i++){
             var userId = playlists[i].owner.id;
             var playlistId = playlists[i].id;
-            console.log(playlistId);
-            spotifyApi.getPlaylist(userId, playlistId)
-                .then(function(data){
-                    console.log("****");
-                    console.log(data.body);
-                    console.log("****");
-                });
-
+            spotifyApi.getPlaylist(userId, playlistId).then(getSongsOfPlaylists);
         }
     }, function(err) {
         console.log("Something went wrong!", err);
     });
 
+function getSongsOfPlaylists(data){
+    var songs = data.body.tracks.items;
+    for(var i = 0; i < songs.length; i++){
+        songDetails[songs[i].track.id] = {};
+        songDetails[songs[i].track.id].name = songs[i].track.name;
+        songIds.push(songs[i].track.id);
+    }
+    finishGettingPlaylistSongs();
+}
 
+var playlistsComplete = 0;
+function finishGettingPlaylistSongs(){
+    playlistsComplete++;
+    if(playlistsComplete >= totalPlaylists){
+        //console.log(songIds);
+        sendAudioFeatureRequests();
+        //spotifyApi.getAudioFeaturesForTracks(songIds, handleAudioFeatures);
+    }
+}
+
+var batches = 0;
+function sendAudioFeatureRequests(){
+    var i = 0;
+    var ids = [];
+    batches = Math.ceil(songIds.length/5);
+    while(i < songIds.length){
+        ids.push(songIds[i]);
+        if(i%5 === 0 && i !== 0){
+            spotifyApi.getAudioFeaturesForTracks(ids, handleAudioFeatures);
+            ids = [];
+        }
+        i++;
+    }
+    if(ids.length !== 0){
+        spotifyApi.getAudioFeaturesForTracks(ids, handleAudioFeatures);
+    }
+}
+
+var features = [];
+
+function handleAudioFeatures(err, res){
+    if(err){
+        console.log("API returned an error: "+err);
+        return;
+    }
+    var audioFeatures = res.body.audio_features;
+    for(var i = 0; i < audioFeatures.length; i++){
+        var id = audioFeatures[i].id;
+        songDetails[id].danceability = audioFeatures[i].danceability;
+        songDetails[id].energy = audioFeatures[i].energy;
+        songDetails[id].loudness = audioFeatures[i].loudness;
+        songDetails[id].valence = audioFeatures[i].valence;
+        songDetails[id].speechiness = audioFeatures[i].speechiness;
+        songDetails[id].acousticness = audioFeatures[i].acousticness;
+        songDetails[id].instrumentalness = audioFeatures[i].instrumentalness;
+        songDetails[id].liveness = audioFeatures[i].liveness;
+        songDetails[id].tempo = audioFeatures[i].tempo;
+        songDetails[id].track_href = audioFeatures[i].track_href;
+    }
+    finishAudioFeaturesRequest();
+}
+
+var batchesComplete = 0;
+function finishAudioFeaturesRequest(){
+    batchesComplete++;
+    if(batchesComplete >= batches){
+        console.log(songDetails);
+    }
+}
 
 console.log('Listening on 1337');
 app.listen(1337);
