@@ -10,13 +10,15 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 
-const returnImage = require('./image-processor').returnImage;
-const processImage = require('./image-processor').processImage;
+const processRequest = require('./spotify-main');
 
 app.use(bodyParser());
-app.post('/processImage', processImage);
-app.get('/getImage', returnImage);
-
+app.post('/authenticationCallback', processRequest);
+app.get('/authenticate', function(req, res){
+    res.writeHead(200);
+    res.end();
+    console.log(req);
+});
 http.createServer(app).listen(1337, function(){
     console.log('Express server listening on port 1337');
 });

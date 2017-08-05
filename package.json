@@ -19,6 +19,8 @@
   "dependencies": {
     "body-parser": "^1.17.2",
     "cognitive-services": "^0.1.2",
-    "node-oxford-emotion": "^1.0.4"
+    "express": "^4.15.3",
+    "node-oxford-emotion": "^1.0.4",
+    "spotify-web-api-node": "^2.4.0"
   }
 }

@@ -5,22 +5,29 @@
  */
 
 const oxfordEmotion = require("node-oxford-emotion")("6ca9f844861d4ae4b6cdb372db4e8fb7");
-const setImage = require('./image-holder').setImage;
-const serverImageGetterUrl = "https://36666ac9.ngrok.io/getImage";
+const serverImageGetterUrl = "https://2203bb20.ngrok.io/getImage";
+var img;
 
 function processImage(req, res){
     res.end();
-
-    console.log(req);
-    return;
-
-    var image = req.body.image;
-
-    setImage(image);
+    img = req.body.img;
     oxfordEmotion.recognize("url", serverImageGetterUrl, function(cb) {
         console.log(cb);
-        // Process the image.
     });
+
 }
 
-module.exports = processImage;
+function returnImage(req, res){
+    console.log("request made");
+
+    var bufferImg = new Buffer(img, 'base64');
+
+    res.writeHead(200, {
+        'Content-Type': 'image/png',
+        'Content-Length': bufferImg.length
+    });
+    res.end(bufferImg);
+
+}
+
+module.exports = {"processImage" : processImage, "returnImage" : returnImage};
