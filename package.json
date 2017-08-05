@@ -19,7 +19,6 @@
   "dependencies": {
     "cognitive-services": "^0.1.2",
     "node-oxford-emotion": "^1.0.4",
-
 //>>>>>>> bf8972cd31ccee6944c9825d81f55cbd063c1276
 //>>>>>>> b67ddccc4b1372b94713d95ab72084506f09f175
     "spotify-web-api-node": "^2.4.0"

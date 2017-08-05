@@ -7,7 +7,12 @@ var SpotifyWebApi = require('spotify-web-api-node');
 //    redirectUri : 'http://www.example.com/callback'
 //});
 
+
  var access_token = 'BQCoEkeGrVzmaQNw44pJjP5yu9QppuALFduNgYUgqjBMEtjTyYArio0nGdApDguM2RxR3uLy2mhgPgy7Z_OH6lWtJGRscw0B9oUkrOmackiDnUt9JPQqXsV3MPkKOontktLokEA2vX0m'
+
+// var access_token = 'BQCoEkeGrVzmaQNw44pJjP5yu9QppuALFduNgYUgqjBMEtjTyYArio0nGdApDguM2RxR3uLy2mhgPgy7Z_OH6lWtJGRscw0B9oUkrOmackiDnUt9JPQqXsV3MPkKOontktLokEA2vX0m'
+// var refresh_token = 'AQAINlxRG0Ne8_e_LInd2-PYbw8PPQLoLQQX6Zw-5xK2czzpNOOn7JChQgFFtE9LynMcgDg94_dCnQ2p-ivOFFCuS1qZOXEi6rMPe8-osewQULRj_9Tm6zXKiImZsty8vxc'
+
 
 var scopes = ['playlist-read-private', 'playlist-modify-private','playlist-modify-public', 'user-library-read user-library-modify user-top-read user-follow-read'],
     redirectUri = 'https://example.com/callback',
