@@ -5,12 +5,9 @@
   </ion-fab>
 
   <div style="margin-top: 86px;">
-    <ion-card class="emotion-card">
-      <div class="emotion-card-bg">
-        <img src="assets/img/happy.jpg"/>
-      </div>
-      <div class="card-title">Happy</div>
-    </ion-card>
+    <div class="mood-title">
+      <h1>Happy</h1>
+    </div>
     <ion-list style="margin-top: 28px;">
       <button ion-item *ngFor="let song of moodplaylist" (click)="playTrack(song)">
       <h2>{{ song.name }}</h2>
@@ -18,7 +15,7 @@
     </ion-list>
   </div>
 
-  <button ion-button block color="red">
+  <button ion-button block>
     Create Playlist
   </button>
 

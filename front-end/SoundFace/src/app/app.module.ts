@@ -16,12 +16,14 @@ import { NativeAudio } from '@ionic-native/native-audio';
 import { SoundFace } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { Playlist } from "../pages/playlist/playlist";
+import { Login } from "../pages/login/login";
 
 @NgModule({
   declarations: [
     SoundFace,
     HomePage,
-    Playlist
+    Playlist,
+    Login
   ],
   imports: [
     BrowserModule,
@@ -32,7 +34,8 @@ import { Playlist } from "../pages/playlist/playlist";
   entryComponents: [
     SoundFace,
     HomePage,
-    Playlist
+    Playlist,
+    Login
   ],
   providers: [
     StatusBar,
