@@ -30,4 +30,7 @@ export class Settings {
     ];
   }
 
+goHome() {
+    this.navCtrl.pop();
+  }
 }
