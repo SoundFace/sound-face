@@ -19,6 +19,8 @@
   "dependencies": {
     "body-parser": "^1.17.2",
     "cognitive-services": "^0.1.2",
+    "cordova": "^7.0.1",
+    "ionic": "^3.7.0",
     "node-oxford-emotion": "^1.0.4"
   }
 }
