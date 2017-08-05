@@ -1,46 +1,35 @@
-<ion-header >
-  <ion-navbar class ="header" >
-    <ion-title class="title" style="font-size:100px">
-      SoundFace
-      <img src="img/logo.png" alt="logo" class="logo">
-    </ion-title>
-  </ion-navbar>
-</ion-header>
+<ion-content padding id="ioncontent" class="bg-style">
 
-<ion-content padding class="bg-style">
+  <ion-fab left class="mainmenu" >
+    <button ion-fab class="tabs"><ion-icon name="arrow-dropright"></ion-icon></button>
+    <ion-fab-list side="right">
+      <button ion-fab (click)="backToLogin()"><img src  = "assets/img/logout.png" alt="logout" style="width:35px;height:30px;"></button>
+        <button ion-fab (click)="listOfMusic()"><ion-icon name="musical-notes" class="icon musical-notes custom-icon"></ion-icon></button>
+      <button ion-fab (click)="albums()"><ion-icon name="image" class="icon image image-icon"></ion-icon></button>
+    </ion-fab-list>
+  </ion-fab>
 
-  <div id="overlay">
-    <ion-fab left class="mainmenu" >
-      <button ion-fab class="tabs"><ion-icon name="arrow-dropright"></ion-icon></button>
-      <ion-fab-list side="right">
-        <button ion-fab (click)="backToLogin()"><img src  = "assets/img/logout.png" alt="logout" style="width:35px;height:30px;"></button>
-          <button ion-fab (click)="listOfMusic()"><ion-icon name="musical-notes" class="icon musical-notes custom-icon"></ion-icon></button>
-        <button ion-fab (click)="albums()"><ion-icon name="image" class="icon image image-icon"></ion-icon></button>
-      </ion-fab-list>
-    </ion-fab>
+  <ion-card class="reaction" id="notification" hidden >
+    <ion-card-header >
+      "Emotion" create a function 
+    </ion-card-header>
+    <ion-card-content >
+      Tap "OK" to go to your new playlist
+    </ion-card-content>
+  </ion-card>
+  <button ion-button round hidden id ="secondnotification" class="buttonok">Ok!</button>
 
-    <ion-card class="reaction" id="notification" hidden >
-      <ion-card-header >
-        "Emotion" create a function 
-      </ion-card-header>
-      <ion-card-content >
-        Tap "OK" to go to your new playlist
-      </ion-card-content>
-    </ion-card>
-    <button ion-button round hidden id ="secondnotification" class="buttonok">Ok!</button>
+  <ion-fab center bottom>
+    <button ion-fab (click)="takePicture()" color="dark" round icon-only>
+      <ion-icon name='camera'></ion-icon>
+    </button>
+  </ion-fab>
 
-    <ion-fab center bottom>
-      <button ion-fab (click)="takePicture()" color="dark" round icon-only>
-        <ion-icon name='camera'></ion-icon>
-      </button>
-    </ion-fab>
-
-    <ion-fab bottom right>
-      <button ion-fab (click)="switchCamera()" color="dark" round icon-only>
-        <ion-icon name='switch'></ion-icon>
-      </button>
-    </ion-fab>
-  </div>
+  <ion-fab bottom right>
+    <button ion-fab (click)="switchCamera()" color="dark" round icon-only>
+      <ion-icon name='switch'></ion-icon>
+    </button>
+  </ion-fab>
 
   <div class="viewscope">
     <img id="view" width="100%" />

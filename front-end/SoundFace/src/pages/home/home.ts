@@ -30,7 +30,7 @@ export class HomePage {
 
   startCamera(){
         // let react = {x: 40, y: 100, width: this.calcWidth ,height: 220}   //Decrepted due to previous code
-    this.cameraPreview.startCamera({x: 0, y: 108, width: window.innerWidth, height: window.innerHeight-(108*2), toBack: false, previewDrag: false, tapPhoto: true});
+    this.cameraPreview.startCamera({x: 0, y: 0, width: window.innerWidth, height: window.innerHeight, toBack: true, previewDrag: false, tapPhoto: true});
         //.startCamera(react, defaultCamera:'back',tapEnabled: true, dragEnabled: true, toBack:true, alpha:1);  //Decrepeted        
   }
 
@@ -40,36 +40,24 @@ export class HomePage {
       quality: 40,
       destinationType: 0,
       encodingType: 0,
-      sourceType: 1,
       mediaType: 0,
-      targetWidth: 1000,
-      targetHeight: 1000,
+      sourceType: 1,
       cameraDirection: 1,
-      correctOrientation: true,
-      saveToPhotoAlbum: false
+      correctOrientation: true
     }).then((imageData) => {
-      //let base64Image = 'data:image/jpeg;base64,' + imageData;
-      let cameraImageSelector = document.getElementById('view');
-      cameraImageSelector.setAttribute('src', this.lastImg);
+      this.flashbulb();
       console.log(imageData);
       this.postRequest(imageData);
     });
-    /*
-      function(imgData) {
-      this.cameraPreview.hide();
-      // the img in string format: 'data:image/jpeg;base64,' + imgData
-      // FREEZE IMAGE AFTER TAKING PIC FOR 2.5 SECONDS
-      let lastImg = 'data:image/jpeg;base64,' + imgData;
-      // (<HTMLInputElement>document.getElementById('view')).src = lastImg;
-      (<HTMLInputElement>document.getElementById('view')).src = lastImg;
-      this.cameraPreview.show();
-      //this.myEmotion = this.sendImage(lastImg);
-      this.postRequest(imgData);
-    }); */
   }
 
   switchCamera() {
     this.cameraPreview.switchCamera();
+  }
+
+  flashbulb() {
+    setTimeout((<HTMLInputElement>document.getElementById("ioncontent")).style.backgroundColor = "white", 2500);
+    (<HTMLInputElement>document.getElementById("ioncontent")).style.backgroundColor = "transparent !important";
   }
 
   // FROM AN EXAMPLE
