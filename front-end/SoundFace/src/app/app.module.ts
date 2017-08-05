@@ -11,7 +11,6 @@ import {
   CameraPreviewDimensions
 } from '@ionic-native/camera-preview';
 import { HttpModule } from '@angular/http';
-import { NativeAudio } from '@ionic-native/native-audio';
 
 import { SoundFace } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -43,7 +42,6 @@ import { Login } from "../pages/login/login";
     Camera,
     CameraPreview,
     HttpModule,
-    NativeAudio,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

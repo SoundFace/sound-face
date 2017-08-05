@@ -8,8 +8,9 @@ import {
   CameraPreviewDimensions
 } from '@ionic-native/camera-preview';
 import { Http, Headers, RequestOptions } from '@angular/http';
-import { NativeAudio } from '@ionic-native/native-audio';
+import { AlertController } from 'ionic-angular';
 import 'rxjs/add/operator/map';
+
 import { Playlist } from "../playlist/playlist";
 import { Login } from "../login/login";
 
@@ -29,11 +30,10 @@ export class HomePage {
     private camera: Camera,
     private cameraPreview: CameraPreview,
     private http: Http,
-    private nativeAudio: NativeAudio) {
+    public alertCtrl: AlertController) {
     if (!this.loginState) {
       this.logout();
     }
-    this.nativeAudio.preloadSimple('cameraSnap', 'assets/audio/click.mp3');
     // this.startCamera();
   }
 
@@ -53,7 +53,6 @@ export class HomePage {
       cameraDirection: 1,
       correctOrientation: true
     }).then((imageData) => {
-      this.flashbulb();
       console.log(imageData);
       this.postRequest(imageData);
     });
@@ -69,20 +68,9 @@ export class HomePage {
       cameraDirection: 1,
       correctOrientation: true
     }).then((imageData) => {
-      this.flashbulb();
       console.log(imageData);
       this.postRequest(imageData);
     });
-  }
-
-  switchCamera() {
-    this.cameraPreview.switchCamera();
-  }
-
-  flashbulb() {
-    this.nativeAudio.play('cameraSnap');
-    setTimeout((<HTMLInputElement>document.getElementById("ioncontent")).style.backgroundColor = "white", 2500);
-    (<HTMLInputElement>document.getElementById("ioncontent")).style.backgroundColor = "transparent !important";
   }
 
   // FROM AN EXAMPLE
@@ -104,6 +92,25 @@ export class HomePage {
 
   showPlaylist() {
     this.navCtrl.push(Playlist);
+  }
+
+  emotionAlert(emotion) {
+    let suggest = null;
+    if (emotion == "sad" || emotion == "angry") {
+      let suggest = "happy"
+      let alert = this.alertCtrl.create({
+      title: emotion,
+      message: 'SoundFace detected' + emotion + '! Do you want to see your playlist?',
+      buttons: ['Yes','No']
+    });
+    alert.present()
+    }
+    let alert = this.alertCtrl.create({
+      title: emotion,
+      message: 'SoundFace detected' + emotion + '! Do you want to see your playlist?',
+      buttons: ['Yes','No']
+    });
+    alert.present()
   }
 
   logout() {
