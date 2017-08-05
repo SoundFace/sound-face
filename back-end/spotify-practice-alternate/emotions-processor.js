@@ -11,7 +11,8 @@ function getSongsForEmotions(emotion, details){
             }
         }
     }
-    console.log(playlistSongs);
+    var createPlaylist = require('./playlist-creator');
+    createPlaylist(emotion, playlistSongs);
     return;
 }
 

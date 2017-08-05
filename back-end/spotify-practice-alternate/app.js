@@ -179,6 +179,7 @@ var spotifyApi = new SpotifyWebApi({
 
 spotifyApi.setAccessToken('BQCbQPenoifCxkj3EO5BfmCbieQiAZ2Qk8phQ6lXbtTLu0GeXUZvqg3OUwOd9rtYLMQSZRrcXmGdlaDyVtEdxspx7T39BDfTGuyYyieCIUVoLe0QkO2x7mVkonHP9riUTBepG5nrlpp3NnKkaGi6EJQPOiqh0_9APRCORGbsxm4RH8sWi23yq23XwkP1mTo&refresh_token=AQA_u9RnpOv2NhkcD2sGH11PisRmrch3eR7cXXT6CjRbk6ak8Pu5rMUvx_pbz_gq8XRL3EnHo99GHHMNQrWcfSqlstESgFBdaHXsWCQhf2N_2bojVREsiSOeuxZQHUYAts8');
 
+
 var totalPlaylists = 2;
 var songIds = [];
 var songDetails = {};
@@ -263,6 +264,7 @@ function handleAudioFeatures(err, res){
         songDetails[id].liveness = audioFeatures[i].liveness;
         songDetails[id].tempo = audioFeatures[i].tempo;
         songDetails[id].track_href = audioFeatures[i].track_href;
+        songDetails[id].id = id;
     }
     finishAudioFeaturesRequest();
 }
