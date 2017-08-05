@@ -7,9 +7,9 @@ var SpotifyWebApi = require('spotify-web-api-node');
 //    redirectUri : 'http://www.example.com/callback'
 //});
 
-// var access_token = 'BQCoEkeGrVzmaQNw44pJjP5yu9QppuALFduNgYUgqjBMEtjTyYArio0nGdApDguM2RxR3uLy2mhgPgy7Z_OH6lWtJGRscw0B9oUkrOmackiDnUt9JPQqXsV3MPkKOontktLokEA2vX0m'
+ var access_token = 'BQCoEkeGrVzmaQNw44pJjP5yu9QppuALFduNgYUgqjBMEtjTyYArio0nGdApDguM2RxR3uLy2mhgPgy7Z_OH6lWtJGRscw0B9oUkrOmackiDnUt9JPQqXsV3MPkKOontktLokEA2vX0m'
 
-var scopes = ['user-read-private', 'user-read-email'],
+var scopes = ['playlist-read-private', 'playlist-modify-private','playlist-modify-public', 'user-library-read user-library-modify user-top-read user-follow-read'],
     redirectUri = 'https://example.com/callback',
     clientId = '6c792eb4871e4c61832806d8e31aa947',
     state = 'some-state-of-my-choice';
