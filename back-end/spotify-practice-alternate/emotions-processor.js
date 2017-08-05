@@ -1,15 +1,18 @@
 
-function getSongsForEmotion(emotion, details){
+function getSongsForEmotions(emotion, details){
     var playlistSongs = [];
     for(var songId in details){
         var songEmotion = classifySong(details[songId]);
+        console.log(songEmotion);
         if (emotion === songEmotion){
             playlistSongs.push(details[songId]);
             if(playlistSongs.length >= 20){
-                return;
+                break;
             }
         }
     }
+    console.log(playlistSongs);
+    return;
 }
 
 var threshholds = {
@@ -53,7 +56,7 @@ var emotionStats = {
         "tempo" : ["high"],
         "valence" : ["medium"],
         "danceability" : ["medium"],
-        "loudness" : ["medium", "high"],
+        "loudness" : ["high"],
         "energy" : ["high"]
     }
 };
@@ -68,10 +71,10 @@ var weights = {
     },
     "happiness" : {
         "tempo" : 0.5,
-        "valence" : 5,
+        "valence" : 4,
         "danceability" : 2,
         "loudness" : 0.5,
-        "energy" : 2
+        "energy" : 3
     },
     "neutral" : {
         "tempo" : 3.5,
@@ -88,26 +91,26 @@ var weights = {
         "energy" : 2
     },
     "surprise" : {
-        "tempo" : 5,
-        "valence" : 0,
+        "tempo" : 3,
+        "valence" : 2,
         "danceability" : 1.5,
         "loudness" : 1.5,
         "energy" : 2
     }
-}
+};
 
 function classifySong(songObject){
-    for(var attribute in songObject){
+    for(var attribute in threshholds){
         if(attribute !== "name" && attribute !== "track_href"){
             songObject[attribute] = parseFloat(songObject[attribute]);
-        }
-        if(songObject[attribute] < threshholds[attribute][0]){
-            songObject[attribute] = "high";
-        }
-        else if(songObject[attribute] > threshholds[attribute][1]){
-            songObject[attribute] = "low";
-        } else {
-            songObject[attribute] = "medium";
+            if(songObject[attribute] < threshholds[attribute][0]){
+                songObject[attribute] = "high";
+            }
+            else if(songObject[attribute] > threshholds[attribute][1]){
+                songObject[attribute] = "low";
+            } else {
+                songObject[attribute] = "medium";
+            }
         }
     }
 
@@ -128,6 +131,7 @@ function getMostProminentEmotion(songScores) {
     for(var emotion in songScores){
         if(songScores[emotion] > mostProminentValue){
             mostProminentEmotion = emotion;
+            mostProminentValue = songScores[emotion];
         }
     }
     return mostProminentEmotion;
@@ -141,3 +145,5 @@ function contains(array, target){
     }
     return false;
 }
+
+module.exports = getSongsForEmotions;
