@@ -30,7 +30,7 @@ export class HomePage {
 
   startCamera(){
         // let react = {x: 40, y: 100, width: this.calcWidth ,height: 220}   //Decrepted due to previous code
-    this.cameraPreview.startCamera({x: 0, y: 0, width: window.innerWidth, height: window.innerHeight-64, toBack: false, previewDrag: false, tapPhoto: true});
+    this.cameraPreview.startCamera({x: 0, y: 108, width: window.innerWidth, height: window.innerHeight-(108*2), toBack: false, previewDrag: false, tapPhoto: true});
         //.startCamera(react, defaultCamera:'back',tapEnabled: true, dragEnabled: true, toBack:true, alpha:1);  //Decrepeted        
   }
 
@@ -44,14 +44,15 @@ export class HomePage {
       mediaType: 0,
       targetWidth: 1000,
       targetHeight: 1000,
-      saveToPhotoAlbum: true
+      cameraDirection: 1,
+      correctOrientation: true,
+      saveToPhotoAlbum: false
     }).then((imageData) => {
       //let base64Image = 'data:image/jpeg;base64,' + imageData;
       let cameraImageSelector = document.getElementById('view');
-      this.lastImg = 'data:image/jpeg;base64,' + imageData;
       cameraImageSelector.setAttribute('src', this.lastImg);
-      console.log(this.lastImg);
-      this.postRequest(this.lastImg);
+      console.log(imageData);
+      this.postRequest(imageData);
     });
     /*
       function(imgData) {
@@ -67,6 +68,10 @@ export class HomePage {
     }); */
   }
 
+  switchCamera() {
+    this.cameraPreview.switchCamera();
+  }
+
   // FROM AN EXAMPLE
   postRequest(image) {
     //let hello = 'data:image/jpeg;base64,' + String(image);
@@ -77,7 +82,7 @@ export class HomePage {
       img : image
     };
 
-    this.http.post("http://2203bb20.ngrok.io/processImage", JSON.stringify(body), {headers : headers})
+    this.http.post("https://2203bb20.ngrok.io/processImage", JSON.stringify(body), {headers : headers})
       .map(res => res.json())
       .subscribe(data => {
         console.log(data);
