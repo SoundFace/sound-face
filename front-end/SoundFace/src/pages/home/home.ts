@@ -98,12 +98,12 @@ export class HomePage {
     let suggest = null;
     if (emotion == "sad" || emotion == "angry") {
       let suggest = "happy"
-      let alert = this.alertCtrl.create({
-      title: emotion,
-      message: 'SoundFace detected' + emotion + '! Do you want to see your playlist?',
-      buttons: ['Yes','No']
-    });
-    alert.present()
+      let suggestAlert = this.alertCtrl.create({
+        title: emotion,
+        message: 'SoundFace detected' + emotion + '! Would you rather see a(n) ' + suggest + ' playlist?',
+        buttons: ['Yes','No']
+      });
+      suggestAlert.present()
     }
     let alert = this.alertCtrl.create({
       title: emotion,
