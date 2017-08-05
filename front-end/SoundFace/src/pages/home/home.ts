@@ -14,59 +14,36 @@ import {
 })
 export class HomePage {
 
+  public screenWidth: number;
+  public screenHeight: number;
+
   constructor(public navCtrl: NavController, private camera: Camera, private cameraPreview: CameraPreview) {
-    this.takePicture();
+    this.initCamera();
+  }
+
+  initCamera() {
+    console.log("initCamera called");
+    this.cameraPreview.startCamera({
+      x: 0,
+      y: 0,
+      width: window.innerWidth,
+      height: window.innerHeight-64,
+      camera: 'front',
+      toBack: false,
+      previewDrag: false,
+      tapPhoto: false
+    });
   }
 
   takePicture() {
-    console.log("takePicture has been called");
-    this.camera.getPicture({
-      quality: 100,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE
-    }).then((imageData) => {
-      let base64Image = 'data:image/jpeg;base64,' + imageData;
-    }, (err) => {
-      // Handle error
-    });
-  }
-
-  viewscope() {
-    const cameraPreviewOpts: CameraPreviewOptions = {
-      x: 0,
-      y: 0,
-      width: window.screen.width,
-      height: window.screen.height,
-      camera: 'rear',
-      tapPhoto: true,
-      previewDrag: true,
-      toBack: true,
-      alpha: 1
-    };
-
-    // start camera
-    this.cameraPreview.startCamera(cameraPreviewOpts).then(
-      (res) => {
-        console.log(res)
-      },
-      (err) => {
-        console.log(err)
-      });
-
-    // Set the handler to run every time we take a picture
-    this.cameraPreview.setOnPictureTakenHandler().subscribe((result) => {
-      console.log(result);
-      // do something with the result
-    });
-
-
-    // picture options
-    const pictureOpts: CameraPreviewPictureOptions = {
-      width: 1280,
-      height: 1280,
-      quality: 85
-    }
+    this.cameraPreview.takePicture(function(imgData) {
+      this.cameraPreview.hide();
+      // the img in string format: 'data:image/jpeg;base64,' + imgData
+      // FREEZE IMAGE AFTER TAKING PIC FOR 2.5 SECONDS
+      setTimeout(((<HTMLInputElement>document.getElementById('view')).src = 'data:image/jpeg;base64,' + imgData), 2500);
+      this.cameraPreview.show();
+      // console.log('data:image/jpeg;base64,' + imgData);
+    })
   }
 
 }
