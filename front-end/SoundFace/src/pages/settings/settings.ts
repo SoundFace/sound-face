@@ -26,11 +26,15 @@ export class Settings {
        'Username',
        'E-mail',
        'About',
-       'Spotify ID'
+       'Spotify ID',
+       'See what your Friends Feel',
+       'Share your Playlist'
     ];
   }
 
 goHome() {
     this.navCtrl.pop();
   }
+itemSelected(item){
+}
 }
