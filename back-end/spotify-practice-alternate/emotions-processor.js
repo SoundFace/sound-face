@@ -71,8 +71,8 @@ var weights = {
         "energy" : 1
     },
     "happiness" : {
-        "tempo" : 0.5,
-        "valence" : 4,
+        "tempo" : 3,
+        "valence" : 1.5,
         "danceability" : 2,
         "loudness" : 0.5,
         "energy" : 3
