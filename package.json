@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/sudhirmandarapu/sound-face/issues"
   },
-  "homepage": "https://github.com/sudhirmandarapu/sound-face#readme"
+  "homepage": "https://github.com/sudhirmandarapu/sound-face#readme",
+  "dependencies": {
+    "cognitive-services": "^0.1.2"
+  }
 }
