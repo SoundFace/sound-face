@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/sudhirmandarapu/sound-face#readme",
   "dependencies": {
+    "body-parser": "^1.17.2",
     "cognitive-services": "^0.1.2",
     "node-oxford-emotion": "^1.0.4"
   }
