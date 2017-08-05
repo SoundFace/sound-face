@@ -62,4 +62,4 @@ typings/
 
 .gitignore
 .idea/
-package.json
+*.DS_Store
