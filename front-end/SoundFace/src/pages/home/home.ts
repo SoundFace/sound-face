@@ -116,6 +116,7 @@ export class HomePage {
 
   logout() {
     // insert Spotify logout stuff
+    this.loginState = true;
     this.navCtrl.push(Login);
   }
 goToSettings() {

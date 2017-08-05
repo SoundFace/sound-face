@@ -40,9 +40,32 @@ var app = express();
 
 app.use(express.static(__dirname + '/public'))
     .use(cookieParser());
+var genre = [];
+var userEmotion = "neutral";
+if (userEmotion === "angry"){
+    genre = ["rap", "metal"];
+}
+else if(userEmotion === "neutral"){
+    genre[0] = "chill";
+    genre[1] = "country";
+}
+else if(userEmotion === "happiness"){
+    genre[0] = "party";
+    genre[1] = "popculture";
+}
+else if(userEmotion === "sadness"){
+    genre[0] = "rnb";
+    genre[1] = "blues";
+}
+else if(userEmotion === "fear"){
+    genre[0] = "metal";
+    genre[1] = "metal";
+}
 
-var userEmotion;
-
+else if(userEmotion === "surprise"){
+    genre[0] ="metal";
+    genre[1] ="edm_dance";
+}
 app.get('/login', function(req, res) {
 
     var state = generateRandomString(16);
@@ -154,28 +177,31 @@ var spotifyApi = new SpotifyWebApi({
     redirectUri : redirect_uri
 });
 
-spotifyApi.setAccessToken('BQAEwa4vANdPkHs4DhFX0Jib2dD3yViXdJOUJ3OqGt3--UwPdtKNXfpj3uJWn4oMmpCSYsgXXvdc_nOW3JCrMBhNN2WvoN7jLrdIvuzu7H5M3xnIkUxFwyU0JiPmIcrEJAiQw9v8094NQPge3xIrS_jLaO-ZHUR-v_pSQRSVau6uElnGhZ278TV3CnL3k2s&refresh_token=AQCoptWm-OP_5n5REh4mXAlI9Yo9qAjjKFSFy_OjhoXDYPMxeF3-0eJHWtWCHIIunSuiug1SMmBwNamdAOvv1R4q6eQ5RW6C50Vostem-RO1LOt2ROafijM0zSCRgXeQHm4');
+spotifyApi.setAccessToken('access_token=BQDUzlPNXuTYOFDnOYpDUp2EjQ2UYi9QIF9ui7O_5iy8Jc-h-evqTQ6bgN-Kp34LDwazvz-Mio1k19I5cZdmr0RyuKFY0ps3RHMwUCTQ8jDQ0EWRDQhYADNtJ0pElyOhVSrsryqqyxfdNqEP9hY9ed8vzoPBhEovVDjYf7sP_x3jCSxDSzG2jEC9w6F7r5s&refresh_token=AQBa64qi7NKRvYYvLMQwdjQ-frIaMqWy_D-UkoJ6_AcNWUTeIFGQlDWVQykf4eSt3Mt1UVPBa3mqPkYrOdt67y0IgebXUMlUH8pb0U6w1T7gRnHd_ARG9XylCWtU2eC53R0');
 
-var totalPlaylists = 0;
+var totalPlaylists = 2;
 var songIds = [];
 var songDetails = {};
 
-spotifyApi.getPlaylistsForCategory('party', {
-    country: 'AU',
-    limit : 2,
-    offset : 0
-})
-    .then(function(data) {
-        var playlists = data.body.playlists.items;
-        totalPlaylists = playlists.length;
-        for(var i = 0; i < playlists.length; i++){
-            var userId = playlists[i].owner.id;
-            var playlistId = playlists[i].id;
-            spotifyApi.getPlaylist(userId, playlistId).then(getSongsOfPlaylists);
-        }
-    }, function(err) {
-        console.log("Something went wrong!", err);
-    });
+for(var i=0;i<2;i++) {
+
+    spotifyApi.getPlaylistsForCategory(genre[i], {
+            country: 'AU',
+            limit: 1,
+            offset: 0
+        })
+
+            .then(function (data) {
+                var playlists = data.body.playlists.items;
+                for (var i = 0; i < playlists.length; i++) {
+                    var userId = playlists[i].owner.id;
+                    var playlistId = playlists[i].id;
+                    spotifyApi.getPlaylist(userId, playlistId).then(getSongsOfPlaylists);
+                }
+            }, function (err) {
+                console.log("Something went wrong!", err);
+            });
+}
 
 function getSongsOfPlaylists(data){
     var songs = data.body.tracks.items;
@@ -188,6 +214,7 @@ function getSongsOfPlaylists(data){
 }
 
 var playlistsComplete = 0;
+
 function finishGettingPlaylistSongs(){
     playlistsComplete++;
     if(playlistsComplete >= totalPlaylists){
@@ -196,6 +223,7 @@ function finishGettingPlaylistSongs(){
         //spotifyApi.getAudioFeaturesForTracks(songIds, handleAudioFeatures);
     }
 }
+
 
 var batches = 0;
 function sendAudioFeatureRequests(){
@@ -239,16 +267,15 @@ function handleAudioFeatures(err, res){
     finishAudioFeaturesRequest();
 }
 
+
 var batchesComplete = 0;
 function finishAudioFeaturesRequest(){
     batchesComplete++;
     if(batchesComplete >= batches){
-        console.log(songDetails);
+        const getSongsForEmotions = require('./emotions-processor');
+        getSongsForEmotions(userEmotion, songDetails);
     }
 }
-
-const getSongForEmotions = require('./emotions-processor');
-getSongsForEmotion(userEmotion, songDetails);
 
 console.log('Listening on 1337');
 app.listen(1337);
