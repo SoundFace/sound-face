@@ -1,13 +1,14 @@
 <ion-content padding>
 
   <ion-fab center bottom>
-    <button ion-button (click)="takePicture()" color="light" round icon-only>
+    <button ion-button (click)="takePicture()" color="dark" round icon-only>
       <ion-icon name='camera'></ion-icon>
     </button>
   </ion-fab>
 
   <div class="viewscope">
     <img id="view" width="100%" />
+    <img [src]="lastImg" *ngIf="lastImg"/>
   </div>
 
 </ion-content>
