@@ -177,7 +177,7 @@ var spotifyApi = new SpotifyWebApi({
     redirectUri : redirect_uri
 });
 
-spotifyApi.setAccessToken('BQATUOKk_gK_OND41k3BsJPdD-wFXtx3XyKYyr98ejAItm18wg2KhUMoMuj0vmD74tAhhf2XpvPlv2PZH8uvZPb-trFc19bd08QJtIvIS0PtsaTUGBnkJpkbfHe91XKv-tgOCvvYfIREsh8yPCZUNR3uRMH50akclPLmLolz3uf1VhSsHtMGHy3-ahrG6NY&refresh_token=AQBZJWjlAhU972SwpbnNOAi3b6mFa_L0szssX7mbffygQX7BfQCaEGYLSlKBuvT7dCZ89vKUQxX4mPt8KtmnZKRreHs2ll26tJc8ASVv--DUg2mh9jgLhZ9wYCyC34D_fD4');
+spotifyApi.setAccessToken('BQDUzlPNXuTYOFDnOYpDUp2EjQ2UYi9QIF9ui7O_5iy8Jc-h-evqTQ6bgN-Kp34LDwazvz-Mio1k19I5cZdmr0RyuKFY0ps3RHMwUCTQ8jDQ0EWRDQhYADNtJ0pElyOhVSrsryqqyxfdNqEP9hY9ed8vzoPBhEovVDjYf7sP_x3jCSxDSzG2jEC9w6F7r5s&refresh_token=AQBa64qi7NKRvYYvLMQwdjQ-frIaMqWy_D-UkoJ6_AcNWUTeIFGQlDWVQykf4eSt3Mt1UVPBa3mqPkYrOdt67y0IgebXUMlUH8pb0U6w1T7gRnHd_ARG9XylCWtU2eC53R0');
 
 var totalPlaylists = 2;
 var songIds = [];
@@ -263,6 +263,7 @@ function handleAudioFeatures(err, res){
         songDetails[id].liveness = audioFeatures[i].liveness;
         songDetails[id].tempo = audioFeatures[i].tempo;
         songDetails[id].track_href = audioFeatures[i].track_href;
+        songDetails[id].id = id;
     }
     finishAudioFeaturesRequest();
 }
