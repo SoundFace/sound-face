@@ -41,6 +41,8 @@ var app = express();
 app.use(express.static(__dirname + '/public'))
     .use(cookieParser());
 
+var userEmotion;
+
 app.get('/login', function(req, res) {
 
     var state = generateRandomString(16);
@@ -244,6 +246,9 @@ function finishAudioFeaturesRequest(){
         console.log(songDetails);
     }
 }
+
+const getSongForEmotions = require('./emotions-processor');
+getSongsForEmotion(userEmotion, songDetails);
 
 console.log('Listening on 1337');
 app.listen(1337);
