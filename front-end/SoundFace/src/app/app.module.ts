@@ -10,6 +10,8 @@ import {
   CameraPreviewOptions,
   CameraPreviewDimensions
 } from '@ionic-native/camera-preview';
+import { HttpModule } from '@angular/http';
+import { LocalNotifications } from '@ionic-native/local-notifications';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -21,6 +23,7 @@ import { HomePage } from '../pages/home/home';
   ],
   imports: [
     BrowserModule,
+    HttpModule,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
@@ -33,6 +36,7 @@ import { HomePage } from '../pages/home/home';
     SplashScreen,
     Camera,
     CameraPreview,
+    HttpModule,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

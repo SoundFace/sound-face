@@ -7,6 +7,7 @@ import {
   CameraPreviewOptions,
   CameraPreviewDimensions
 } from '@ionic-native/camera-preview';
+import { Http } from '@angular/http';
 
 @Component({
   selector: 'page-home',
@@ -14,10 +15,13 @@ import {
 })
 export class HomePage {
 
-  public screenWidth: number;
-  public screenHeight: number;
+  public lastImg: string;
+  public myEmotion: string;
 
-  constructor(public navCtrl: NavController, private camera: Camera, private cameraPreview: CameraPreview) {
+  constructor(public navCtrl: NavController,
+    private camera: Camera,
+    private cameraPreview: CameraPreview,
+    private http: Http) {
     this.initCamera();
   }
 
@@ -40,10 +44,19 @@ export class HomePage {
       this.cameraPreview.hide();
       // the img in string format: 'data:image/jpeg;base64,' + imgData
       // FREEZE IMAGE AFTER TAKING PIC FOR 2.5 SECONDS
-      setTimeout(((<HTMLInputElement>document.getElementById('view')).src = 'data:image/jpeg;base64,' + imgData), 2500);
+      let lastImg = 'data:image/jpeg;base64,' + imgData;
+      setTimeout(((<HTMLInputElement>document.getElementById('view')).src = lastImg), 2500);
       this.cameraPreview.show();
-      // console.log('data:image/jpeg;base64,' + imgData);
+      this.myEmotion = this.sendImage();
     })
+  }
+
+  sendImage() {
+    return this.http.post('https://36666ac9.ngrok.io/processImage', this.lastImg);
+  }
+
+  completeAnalysis() {
+    // Handy's "after detection" function
   }
 
 }
