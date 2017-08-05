@@ -13,6 +13,7 @@ import 'rxjs/add/operator/map';
 
 import { Playlist } from "../playlist/playlist";
 import { Login } from "../login/login";
+import { Settings } from "../settings/settings";
 
 @Component({
   selector: 'page-home',
@@ -117,5 +118,7 @@ export class HomePage {
     // insert Spotify logout stuff
     this.navCtrl.push(Login);
   }
-
+goToSettings() {
+  this.navCtrl.push(Settings);
+  }
 }

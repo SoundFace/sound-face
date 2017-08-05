@@ -16,13 +16,15 @@ import { SoundFace } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { Playlist } from "../pages/playlist/playlist";
 import { Login } from "../pages/login/login";
+import { Settings } from "../pages/settings/settings";
 
 @NgModule({
   declarations: [
     SoundFace,
     HomePage,
     Playlist,
-    Login
+    Login,
+    Settings
   ],
   imports: [
     BrowserModule,
@@ -34,7 +36,8 @@ import { Login } from "../pages/login/login";
     SoundFace,
     HomePage,
     Playlist,
-    Login
+    Login,
+    Settings
   ],
   providers: [
     StatusBar,
