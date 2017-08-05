@@ -18,7 +18,11 @@
   "homepage": "https://github.com/sudhirmandarapu/sound-face#readme",
   "dependencies": {
     "cognitive-services": "^0.1.2",
+<<<<<<< HEAD
     "node-oxford-emotion": "^1.0.4",
+=======
+    "node-oxford-emotion": "^1.0.4"
+>>>>>>> bf8972cd31ccee6944c9825d81f55cbd063c1276
     "spotify-web-api-node": "^2.4.0"
   }
 }
