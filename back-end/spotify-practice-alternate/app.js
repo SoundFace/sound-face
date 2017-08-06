@@ -47,12 +47,17 @@ app.use(express.static(__dirname + '/public'))
 
 function initializeSpotifyModule(data){
     var emotions = data[0].scores;
+    var mostProminentEmotion;
+    var maxValue = -1;
     for(var emotion in emotions){
-        
+        if(emotions[emotion] > maxValue){
+            maxValue = emotions[emotion];
+            mostProminentEmotion = emotion;
+        }
     }
 
     genre = [];
-    userEmotion = "neutral";
+    userEmotion = mostProminentEmotion;
     if (userEmotion === "angry"){
         genre = ["rap", "metal"];
     }
@@ -77,6 +82,7 @@ function initializeSpotifyModule(data){
         genre[0] ="metal";
         genre[1] ="edm_dance";
     }
+    getPlaylists();
 }
 
 app.get('/login', function(req, res) {
@@ -192,6 +198,16 @@ var spotifyApi = new SpotifyWebApi({
 
 spotifyApi.setAccessToken('BQCbQPenoifCxkj3EO5BfmCbieQiAZ2Qk8phQ6lXbtTLu0GeXUZvqg3OUwOd9rtYLMQSZRrcXmGdlaDyVtEdxspx7T39BDfTGuyYyieCIUVoLe0QkO2x7mVkonHP9riUTBepG5nrlpp3NnKkaGi6EJQPOiqh0_9APRCORGbsxm4RH8sWi23yq23XwkP1mTo&refresh_token=AQA_u9RnpOv2NhkcD2sGH11PisRmrch3eR7cXXT6CjRbk6ak8Pu5rMUvx_pbz_gq8XRL3EnHo99GHHMNQrWcfSqlstESgFBdaHXsWCQhf2N_2bojVREsiSOeuxZQHUYAts8');
 
+var totalPlaylists = 2;
+function getPlaylists(){
+    for(var i = 0; i < 2; i++){
+        spotifyApi.searchPlaylists(genre[i])
+            .then(getSongsOfPlaylists, function(err) {
+                console.log('Something went wrong!', err);
+            });
+    }
+}
+
 function getSongsOfPlaylists(data){
     var songs = data.body.tracks.items;
     for(var i = 0; i < songs.length; i++){
@@ -207,7 +223,6 @@ var playlistsComplete = 0;
 function finishGettingPlaylistSongs(){
     playlistsComplete++;
     if(playlistsComplete >= totalPlaylists){
-        //console.log(songIds);
         sendAudioFeatureRequests();
         spotifyApi.getAudioFeaturesForTracks(songIds, handleAudioFeatures);
     }
