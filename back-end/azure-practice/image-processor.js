@@ -10,10 +10,8 @@ var img;
 var initializeSpotifyModule = require('../spotify-practice-alternate/app').initializeSpotifyModule;
 
 function processImage(req, res){
-    console.log(req);
     res.end();
     img = req.body.img;
-    console.log(initializeSpotifyModule);
     //return;
     oxfordEmotion.recognize("url", serverImageGetterUrl, initializeSpotifyModule);
 }

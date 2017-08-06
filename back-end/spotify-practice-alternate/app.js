@@ -38,14 +38,15 @@ var stateKey = 'spotify_auth_state';
 
 var app = express();
 var userEmotion;
-var songDetails;
+var songDetails = {};
 var genre = [];
-var songIds;
+var songIds = [];
 
 app.use(express.static(__dirname + '/public'))
     .use(cookieParser());
 
 function initializeSpotifyModule(data){
+    console.log(data);
     var emotions = data[0].scores;
     var mostProminentEmotion;
     var maxValue = -1;
@@ -196,30 +197,43 @@ var spotifyApi = new SpotifyWebApi({
     redirectUri : redirect_uri
 });
 
-spotifyApi.setAccessToken('BQB69ghviACmf4MfOJ5eegpoAmYp5JYydfuJQMcdiC8lasj_UQGa8N_ilvdAH3mJkYaZl7Jm1joxXQa4M4m2wnBmBbH6syoggTb1NmD7HUyCWQAUC_Pr_BkSIXZNNyzJ5Qm1w40JvA7fO0chhUKhkvTZoGI5PlhPArQU6xkQEBVvVVQA7Eer0amZB5oOSRpd9_gSrqT-3k9mcqlqPOE3sAukbvAgbFyAKPAARyCnnLWjV1b3FnlZ8D3Goc79IC1ASEyvQA1Q-Y5NfmAye73e9gk&refresh_token=AQCGEq5c1RMGd3xBcpwz6SRTgJZx8jF1OCHtZMAAdS7c4zobgpYu-Tw8h1UmNN2VzVQBIBeX1MFTHBFD68XEciO6zNr3oo56uiagBLOKyfG9j8iQqJBHrdspwc3YQabLueY');
+spotifyApi.setAccessToken('BQDKXZUYps-QGWAvYQR7wgLNklkVyGL-l5YGpQWyJG2Jeq26Wo927Nf0qNydcSPRdlt5jK3PrEgF-wZeFd22muKEZqUew64-FWxy4Fe7uI7uFXAXzME740aTQkR_ZpfjGJT9wngkZ6mW3xXYGeY0Gc2Rf6Qq1ZAu_UO-HdSzMCeHcTrpRFOcgBMkbEyzaecSFfC87RYrUyMAHUyzyQZVgem5FpxnYgFMGAUSOaRNR7KjMQg4Tph0jX1bU_t7vf-L2P8HDcauJ2peAzacGBc6-6Y&refresh_token=AQD7qe9kvyH_QI7HxvtqwuY6rKO5kD29TmhCdo8RpnrJR22IdQvtwsdb3WExrNNF5kuE6KJJAvP7djaJo8gp2bDSJVn0cJzdiSO8UFxTnaL5YTmGqOfc-QnENjVb9bk_sS8');
 
 
 var totalPlaylists = 2;
 
 function getPlaylists(){
-    for(var i = 0; i < 2; i++){
+    for(var i=0;i<2;i++) {
         var randomNumberBetween0and20 = Math.floor(Math.random() * 21);
         spotifyApi.getPlaylistsForCategory(genre[i], {
-            country: 'BR',
-            limit : 2,
-            offset : randomNumberBetween0and20
+            country: 'AU',
+            limit: 1,
+            offset: randomNumberBetween0and20
         })
-            .then(getSongsOfPlaylists, function(err) {
+
+            .then(function (data) {
+                var playlists = data.body.playlists.items;
+                var limit;
+                if(playlists.length < 40){
+                    limit = playlists.length;
+                } else {
+                    limit = 40;
+                }
+                for (var i = 0; i < limit; i++) {
+                    var userId = playlists[i].owner.id;
+                    var playlistId = playlists[i].id;
+                    spotifyApi.getPlaylist(userId, playlistId).then(getSongsOfPlaylists);
+                }
+            }, function (err) {
                 console.log("Something went wrong!", err);
             });
     }
+
 }
-
-
-
 
 function getSongsOfPlaylists(data){
     var songs = data.body.tracks.items;
+    console.log(songs);
     for(var i = 0; i < songs.length; i++){
         songDetails[songs[i].track.id] = {};
         songDetails[songs[i].track.id].name = songs[i].track.name;
@@ -234,7 +248,6 @@ function finishGettingPlaylistSongs(){
     playlistsComplete++;
     if(playlistsComplete >= totalPlaylists){
         sendAudioFeatureRequests();
-        spotifyApi.getAudioFeaturesForTracks(songIds, handleAudioFeatures);
     }
 }
 
