@@ -25,7 +25,9 @@ export class Settings {
        'Username',
        'E-mail',
        'About',
-       'Spotify ID'
+       'Spotify ID',
+       'See what your Friends Feel',
+       'Share your Playlist'
     ];
     this.userInfo = {
        'username': 'jsmith',
@@ -39,4 +41,9 @@ export class Settings {
     this.navCtrl.pop();
   }
 
+goHome() {
+    this.navCtrl.pop();
+  }
+itemSelected(item){
+}
 }
