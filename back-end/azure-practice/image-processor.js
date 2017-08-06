@@ -5,14 +5,14 @@
  */
 
 const oxfordEmotion = require("node-oxford-emotion")("6ca9f844861d4ae4b6cdb372db4e8fb7");
-const serverImageGetterUrl = "https://2203bb20.ngrok.io/getImage";
+const serverImageGetterUrl = "https://3697d57a.ngrok.io/getImage";
 var img;
 
 function processImage(req, res){
     res.end();
     img = req.body.img;
     //return;
-    const initializeSpotifyModule = require('./app').initializeSpotifyModule;
+    var initializeSpotifyModule = require('../spotify-practice-alternate/app').initializeSpotifyModule;
     oxfordEmotion.recognize("url", serverImageGetterUrl, initializeSpotifyModule);
 }
 

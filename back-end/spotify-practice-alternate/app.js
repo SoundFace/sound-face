@@ -304,7 +304,9 @@ function finishAudioFeaturesRequest(){
     }
 }
 
+/*
 console.log('Listening on 1337');
 app.listen(1337);
+*/
 
 module.exports = {"initializeSpotifyModule" : initializeSpotifyModule};
