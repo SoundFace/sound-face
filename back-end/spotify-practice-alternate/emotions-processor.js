@@ -11,8 +11,9 @@ function getSongsForEmotions(emotion, details){
             }
         }
     }
-    var createPlaylist = require('./playlist-creator').songHandler;
+    var createPlaylist = require('./playlist-creator');
     createPlaylist(emotion, playlistSongs);
+    return;
 }
 
 var threshholds = {

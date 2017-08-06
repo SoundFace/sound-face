@@ -16,17 +16,17 @@ var spotifyApi = new SpotifyWebApi({
 
 spotifyApi.setAccessToken('BQDKXZUYps-QGWAvYQR7wgLNklkVyGL-l5YGpQWyJG2Jeq26Wo927Nf0qNydcSPRdlt5jK3PrEgF-wZeFd22muKEZqUew64-FWxy4Fe7uI7uFXAXzME740aTQkR_ZpfjGJT9wngkZ6mW3xXYGeY0Gc2Rf6Qq1ZAu_UO-HdSzMCeHcTrpRFOcgBMkbEyzaecSFfC87RYrUyMAHUyzyQZVgem5FpxnYgFMGAUSOaRNR7KjMQg4Tph0jX1bU_t7vf-L2P8HDcauJ2peAzacGBc6-6Y&refresh_token=AQD7qe9kvyH_QI7HxvtqwuY6rKO5kD29TmhCdo8RpnrJR22IdQvtwsdb3WExrNNF5kuE6KJJAvP7djaJo8gp2bDSJVn0cJzdiSO8UFxTnaL5YTmGqOfc-QnENjVb9bk_sS8');
 
+
 var userEmotion;
 var userSongs;
 var userId;
-var userPlaylist;
 
 function songsHandler(emotion, songs){
     userEmotion = emotion;
     userSongs = songs;
     spotifyApi.getMe()
         .then(userDetailsHandlers, function(err) {
-            console.log('songsHandler Something went wrong!', err);
+            console.log('Something went wrong!', err);
         });
 }
 
@@ -34,36 +34,21 @@ function songsHandler(emotion, songs){
 function userDetailsHandlers(data){
     userId = data.body.id;
     spotifyApi.createPlaylist(userId, 'Sound Face Playlist: '+userEmotion, { 'public' : false })
-        .then(playlistHandler, function(err) {
-            console.log('userDetailsHandler Something went wrong!', err);
-        });
-}
-
-function playlistHandler(data){
-    var songs = [];
-    for(var i = 0; i < userSongs.length; i++){
-        songs.push("spotify:track:"+userSongs[i].id);
-    }
-    //console.log(songs);
-    userPlaylist = data.body.id;
-
-    spotifyApi.addTracksToPlaylist(userId, userPlaylist, songs)
         .then(function(data) {
-            console.log('Added tracks to playlist!');
+            console.log(data);
         }, function(err) {
-            console.log(err);
+            console.log('Something went wrong!', err);
         });
 }
 
-function returnList(req, res){
-    if(userSongs === undefined){
-        res.end();
-    } else {
-        //console.log(userSongs);
-        res.writeHead(200);
-        res.end(JSON.stringify(userSongs));
-    }
-}
+/*
+// Create a private playlist
+spotifyApi.createPlaylist('thelinmichael', 'My Cool Playlist', { 'public' : false })
+    .then(function(data) {
+        console.log('Created playlist!');
+    }, function(err) {
+        console.log('Something went wrong!', err);
+    });
+    */
 
-
-module.exports = {"songHandler" : songsHandler, "returnList": returnList};
+module.exports = songsHandler;

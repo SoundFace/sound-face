@@ -1,6 +1,24 @@
- <ion-fab top left class="mainmenu" >
-    <button ion-fab class="tabs" color="light" (click)="goHome()"><ion-icon name="close"></ion-icon></button>
+<ion-content>
+  <ion-fab top left class="mainmenu" >
+    <button ion-fab class="tabs" color="light" (click)="goHome()"><ion-icon name="arrow-back"></ion-icon></button>
   </ion-fab>
+<<<<<<< HEAD
+  <!--
+  <ion-list>
+    <button ion-item ng-repeat="(property, item) of userInfo" (click)="itemSelected(property)">
+      {{ property }}: {{ item }}
+    </button>
+  </ion-list>
+  -->
+  <!-- DEMONSTRATION SETTINGS PANEL -->
+  <ion-list>
+    <button ion-item *ngFor="let item of userInfoDemo" (click)="itemSelected(item)">
+      {{ item }}
+    </button>  
+  </ion-list>
+</ion-content>
+    
+=======
 <div style="margin-top: 86px;">
     <ion-list>
   <button ion-item *ngFor="let item of userInfo">
@@ -8,3 +26,4 @@
   </button>  
 </ion-list>
   </div>
+>>>>>>> origin/master

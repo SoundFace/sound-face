@@ -17,12 +17,11 @@ import 'rxjs/add/operator/map';
 export class Settings {
 
   public lastImg: string;
-  public myEmotion: string;
   public userInfo;
+  public userInfoDemo;
 
-  constructor(public navCtrl: NavController,
-    private http: Http) {
-     this.userInfo = [
+  constructor(public navCtrl: NavController) {
+    this.userInfoDemo = [
        'Username',
        'E-mail',
        'About',
@@ -30,6 +29,16 @@ export class Settings {
        'See what your Friends Feel',
        'Share your Playlist'
     ];
+    this.userInfo = {
+       'username': 'jsmith',
+       'email': 'jsmith@gmail.com',
+       'about': 'Loves indie rock',
+       'spotifyId': 'e319Akop90acjv13200ac'
+    };
+  }
+
+  goHome() {
+    this.navCtrl.pop();
   }
 
 goHome() {

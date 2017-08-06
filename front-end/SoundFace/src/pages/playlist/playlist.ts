@@ -1,12 +1,5 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { Camera } from '@ionic-native/camera';
-import {
-  CameraPreview,
-  CameraPreviewPictureOptions,
-  CameraPreviewOptions,
-  CameraPreviewDimensions
-} from '@ionic-native/camera-preview';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
 
@@ -22,7 +15,6 @@ export class Playlist {
 
   constructor(public navCtrl: NavController,
     private http: Http) {
-    // this.startCamera();
     this.moodplaylist = [
       {
         name: 'Fake Magic',
@@ -44,7 +36,7 @@ export class Playlist {
   }
 
   playTrack(song) {
-    console.log("AYYYYYY");
+    console.log("Direct link to track would be here");
   }
 
   goHome() {

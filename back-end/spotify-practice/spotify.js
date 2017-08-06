@@ -11,12 +11,10 @@ var express = require('express'); // Express web server framework
 var request = require('request'); // "Request" library
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
-var SpotifyWebApi = require('spotify-web-api-node');
 
-var client_id = '86a86fa216b44890809b32acdfd44b05'; // Your client id
-var client_secret = '2b0dd2c8b4af431d8b58e4629eeda5a6'; // Your secret
-var redirect_uri = 'https://2203bb20.ngrok.io/authorize'; // Your redirect uri
-var stateKey = 'spotify_auth_state';
+var client_id = 'b6b386ae95844943861b17686056e06e'; // Your client id
+var client_secret = '7046e4136072454282510b1d0aa18307'; // Your secret
+var redirect_uri = 'http://localhost:8080/'; // Your redirect uri
 
 /**
  * Generates a random string containing numbers and letters
@@ -33,10 +31,12 @@ var generateRandomString = function(length) {
     return text;
 };
 
+var stateKey = 'spotify_auth_state';
 
 var app = express();
 
-app.use(express.static(__dirname + '/public')).use(cookieParser());
+app.use(express.static(__dirname + '/public'))
+    .use(cookieParser());
 
 app.get('/login', function(req, res) {
 
@@ -44,8 +44,7 @@ app.get('/login', function(req, res) {
     res.cookie(stateKey, state);
 
     // your application requests authorization
-    //var scope = 'playlist-read-private playlist-modify-private playlist-modify-public user-library-read user-library-modify user-top-read user-follow-read';
-    var scope  = 'user-read-private user-read-email playlist-read-private user-top-read'
+    var scope = 'user-read-private user-read-email';
     res.redirect('https://accounts.spotify.com/authorize?' +
         querystring.stringify({
             response_type: 'code',
@@ -142,22 +141,5 @@ app.get('/refresh_token', function(req, res) {
     });
 });
 
-
-var spotifyApi = new SpotifyWebApi({
-    clientId : client_id,
-    clientSecret : client_secret,
-    redirectUri : redirect_uri
-});
-
-spotifyApi.setAccessToken('access_token=BQBjyrgYyDzD8TAGrRpvA_56UWGh3TxP60hMSrdN3ECNOz_rbO6n7osiRUqFevaeEvj9aKeDWQmaayrbU8J4cId37NxUYc321Lg_pUHFqM1X12ZEKmajlOLY5zCeiH6-RJOIAJzJxFeWIAkGZYTAQxmVQ5XT7y6boKK8sLK1lQpPpJ5v_V8wtkWMG3ONBBqfbdiZ-qIlO7291w_m-39HHBpIT71GakJCGW1ySY4HdAwnhsQI_RvjEux2JV7wy2txZk50um3vJHG_O5BD6StJDqWLNOUDz_tCc6fxd6z1&refresh_token=AQA7_-8wzwP-Y11PSf6Welku16jPShpETVvSfUYMnarjmwaJdImcffSmTcYW2Nb0kN04OcKX3VTHoQiJGSxUNwYPTKG-BDbV11TOEnR6KCo9Uy81rHjf6FQN8WYvdLS4ntU');
-
-spotifyApi.getNewReleases({ limit : 5, offset: 0, country: 'SE' })
-    .then(function(data) {
-        console.log(data.body);
-        done();
-    }, function(err) {
-        console.log("Something went wrong!", err);
-    });
-
-console.log('Listening on 1337');
-app.listen(1337);
+console.log('Listening on 8888');
+app.listen(8888);
