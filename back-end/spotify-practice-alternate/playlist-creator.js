@@ -14,18 +14,19 @@ var spotifyApi = new SpotifyWebApi({
     redirectUri : redirect_uri
 });
 
-spotifyApi.setAccessToken('BQCbQPenoifCxkj3EO5BfmCbieQiAZ2Qk8phQ6lXbtTLu0GeXUZvqg3OUwOd9rtYLMQSZRrcXmGdlaDyVtEdxspx7T39BDfTGuyYyieCIUVoLe0QkO2x7mVkonHP9riUTBepG5nrlpp3NnKkaGi6EJQPOiqh0_9APRCORGbsxm4RH8sWi23yq23XwkP1mTo&refresh_token=AQA_u9RnpOv2NhkcD2sGH11PisRmrch3eR7cXXT6CjRbk6ak8Pu5rMUvx_pbz_gq8XRL3EnHo99GHHMNQrWcfSqlstESgFBdaHXsWCQhf2N_2bojVREsiSOeuxZQHUYAts8');
+spotifyApi.setAccessToken('BQAKBFfTUiFNMU_I67kWgDuuF7v7MG9d49KbDwbP_6NIEnC4b3bFL3Uv9pWFMTMK8wTW3nKp9nlM2PlR0Wo5_CHt_keNO7ZRvBVn21fdy5tpx8xl33Thq00Z0IAXisvKDIP1Y65ne937_Wg2AdBFlSpdRWYW0F0j6LMSM7xNYT5-sZAdK-O3CGWWcjkB0k1SuHXlDZP32fUT8GegOrKIOV89Py1UUOI4bxL-C3U_W_E1zEFyXivywpZjNTL_U5BjUjOv7sjHQkYMoW5Gpb8YePQ&refresh_token=AQBNvdwm10bPmtYpsgeBazmI-84xavBtjG-vB5yzzjvoBpOEB3tSCQSrFhulJw0UfA16XwvnjF_MYbZy1pyOvZvskxtCkUlgHoRL4MeqqqMrPsFzojhRNa8qL73dOgmTSEk');
 
 var userEmotion;
 var userSongs;
 var userId;
+var userPlaylist;
 
 function songsHandler(emotion, songs){
     userEmotion = emotion;
     userSongs = songs;
     spotifyApi.getMe()
         .then(userDetailsHandlers, function(err) {
-            console.log('Something went wrong!', err);
+            console.log('songsHandler Something went wrong!', err);
         });
 }
 
@@ -33,21 +34,36 @@ function songsHandler(emotion, songs){
 function userDetailsHandlers(data){
     userId = data.body.id;
     spotifyApi.createPlaylist(userId, 'Sound Face Playlist: '+userEmotion, { 'public' : false })
-        .then(function(data) {
-            console.log(data);
-        }, function(err) {
-            console.log('Something went wrong!', err);
+        .then(playlistHandler, function(err) {
+            console.log('userDetailsHandler Something went wrong!', err);
         });
 }
 
-/*
-// Create a private playlist
-spotifyApi.createPlaylist('thelinmichael', 'My Cool Playlist', { 'public' : false })
-    .then(function(data) {
-        console.log('Created playlist!');
-    }, function(err) {
-        console.log('Something went wrong!', err);
-    });
-    */
+function playlistHandler(data){
+    var songs = [];
+    for(var i = 0; i < userSongs.length; i++){
+        songs.push("spotify:track:"+userSongs[i].id);
+    }
+    //console.log(songs);
+    userPlaylist = data.body.id;
 
-module.exports = songsHandler;
+    spotifyApi.addTracksToPlaylist(userId, userPlaylist, songs)
+        .then(function(data) {
+            console.log('Added tracks to playlist!');
+        }, function(err) {
+            console.log(err);
+        });
+}
+
+function returnList(req, res){
+    if(userSongs === undefined){
+        res.end();
+    } else {
+        //console.log(userSongs);
+        res.writeHead(200);
+        res.end(JSON.stringify(userSongs));
+    }
+}
+
+
+module.exports = {"songHandler" : songsHandler, "returnList": returnList};

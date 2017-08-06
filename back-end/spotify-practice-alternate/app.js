@@ -37,35 +37,48 @@ var generateRandomString = function(length) {
 var stateKey = 'spotify_auth_state';
 
 var app = express();
+var userEmotion;
+var songDetails;
+var genre = [];
+var songIds;
 
 app.use(express.static(__dirname + '/public'))
     .use(cookieParser());
-var genre = [];
-var userEmotion = "neutral";
-if (userEmotion === "angry"){
-    genre = ["rap", "metal"];
-}
-else if(userEmotion === "neutral"){
-    genre[0] = "chill";
-    genre[1] = "country";
-}
-else if(userEmotion === "happiness"){
-    genre[0] = "party";
-    genre[1] = "popculture";
-}
-else if(userEmotion === "sadness"){
-    genre[0] = "rnb";
-    genre[1] = "blues";
-}
-else if(userEmotion === "fear"){
-    genre[0] = "metal";
-    genre[1] = "metal";
+
+function initializeSpotifyModule(data){
+    var emotions = data[0].scores;
+    for(var emotion in emotions){
+        
+    }
+
+    genre = [];
+    userEmotion = "neutral";
+    if (userEmotion === "angry"){
+        genre = ["rap", "metal"];
+    }
+    else if(userEmotion === "neutral"){
+        genre[0] = "chill";
+        genre[1] = "country";
+    }
+    else if(userEmotion === "happiness"){
+        genre[0] = "party";
+        genre[1] = "popculture";
+    }
+    else if(userEmotion === "sadness"){
+        genre[0] = "rnb";
+        genre[1] = "blues";
+    }
+    else if(userEmotion === "fear"){
+        genre[0] = "metal";
+        genre[1] = "metal";
+    }
+
+    else if(userEmotion === "surprise"){
+        genre[0] ="metal";
+        genre[1] ="edm_dance";
+    }
 }
 
-else if(userEmotion === "surprise"){
-    genre[0] ="metal";
-    genre[1] ="edm_dance";
-}
 app.get('/login', function(req, res) {
 
     var state = generateRandomString(16);
@@ -179,31 +192,6 @@ var spotifyApi = new SpotifyWebApi({
 
 spotifyApi.setAccessToken('BQCbQPenoifCxkj3EO5BfmCbieQiAZ2Qk8phQ6lXbtTLu0GeXUZvqg3OUwOd9rtYLMQSZRrcXmGdlaDyVtEdxspx7T39BDfTGuyYyieCIUVoLe0QkO2x7mVkonHP9riUTBepG5nrlpp3NnKkaGi6EJQPOiqh0_9APRCORGbsxm4RH8sWi23yq23XwkP1mTo&refresh_token=AQA_u9RnpOv2NhkcD2sGH11PisRmrch3eR7cXXT6CjRbk6ak8Pu5rMUvx_pbz_gq8XRL3EnHo99GHHMNQrWcfSqlstESgFBdaHXsWCQhf2N_2bojVREsiSOeuxZQHUYAts8');
 
-
-var totalPlaylists = 2;
-var songIds = [];
-var songDetails = {};
-
-for(var i=0;i<2;i++) {
-
-    spotifyApi.getPlaylistsForCategory(genre[i], {
-            country: 'AU',
-            limit: 1,
-            offset: 0
-        })
-
-            .then(function (data) {
-                var playlists = data.body.playlists.items;
-                for (var i = 0; i < playlists.length; i++) {
-                    var userId = playlists[i].owner.id;
-                    var playlistId = playlists[i].id;
-                    spotifyApi.getPlaylist(userId, playlistId).then(getSongsOfPlaylists);
-                }
-            }, function (err) {
-                console.log("Something went wrong!", err);
-            });
-}
-
 function getSongsOfPlaylists(data){
     var songs = data.body.tracks.items;
     for(var i = 0; i < songs.length; i++){
@@ -221,7 +209,7 @@ function finishGettingPlaylistSongs(){
     if(playlistsComplete >= totalPlaylists){
         //console.log(songIds);
         sendAudioFeatureRequests();
-        //spotifyApi.getAudioFeaturesForTracks(songIds, handleAudioFeatures);
+        spotifyApi.getAudioFeaturesForTracks(songIds, handleAudioFeatures);
     }
 }
 
@@ -243,8 +231,6 @@ function sendAudioFeatureRequests(){
         spotifyApi.getAudioFeaturesForTracks(ids, handleAudioFeatures);
     }
 }
-
-var features = [];
 
 function handleAudioFeatures(err, res){
     if(err){
@@ -279,5 +265,9 @@ function finishAudioFeaturesRequest(){
     }
 }
 
+/*
 console.log('Listening on 1337');
 app.listen(1337);
+*/
+
+module.exports = {"initializeSpotifyModule":initializeSpotifyModule};
