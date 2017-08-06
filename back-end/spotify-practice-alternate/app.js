@@ -196,17 +196,27 @@ var spotifyApi = new SpotifyWebApi({
     redirectUri : redirect_uri
 });
 
-spotifyApi.setAccessToken('BQCbQPenoifCxkj3EO5BfmCbieQiAZ2Qk8phQ6lXbtTLu0GeXUZvqg3OUwOd9rtYLMQSZRrcXmGdlaDyVtEdxspx7T39BDfTGuyYyieCIUVoLe0QkO2x7mVkonHP9riUTBepG5nrlpp3NnKkaGi6EJQPOiqh0_9APRCORGbsxm4RH8sWi23yq23XwkP1mTo&refresh_token=AQA_u9RnpOv2NhkcD2sGH11PisRmrch3eR7cXXT6CjRbk6ak8Pu5rMUvx_pbz_gq8XRL3EnHo99GHHMNQrWcfSqlstESgFBdaHXsWCQhf2N_2bojVREsiSOeuxZQHUYAts8');
+spotifyApi.setAccessToken('BQB69ghviACmf4MfOJ5eegpoAmYp5JYydfuJQMcdiC8lasj_UQGa8N_ilvdAH3mJkYaZl7Jm1joxXQa4M4m2wnBmBbH6syoggTb1NmD7HUyCWQAUC_Pr_BkSIXZNNyzJ5Qm1w40JvA7fO0chhUKhkvTZoGI5PlhPArQU6xkQEBVvVVQA7Eer0amZB5oOSRpd9_gSrqT-3k9mcqlqPOE3sAukbvAgbFyAKPAARyCnnLWjV1b3FnlZ8D3Goc79IC1ASEyvQA1Q-Y5NfmAye73e9gk&refresh_token=AQCGEq5c1RMGd3xBcpwz6SRTgJZx8jF1OCHtZMAAdS7c4zobgpYu-Tw8h1UmNN2VzVQBIBeX1MFTHBFD68XEciO6zNr3oo56uiagBLOKyfG9j8iQqJBHrdspwc3YQabLueY');
+
 
 var totalPlaylists = 2;
+
 function getPlaylists(){
     for(var i = 0; i < 2; i++){
-        spotifyApi.searchPlaylists(genre[i])
+        var randomNumberBetween0and20 = Math.floor(Math.random() * 21);
+        spotifyApi.getPlaylistsForCategory(genre[i], {
+            country: 'BR',
+            limit : 2,
+            offset : randomNumberBetween0and20
+        })
             .then(getSongsOfPlaylists, function(err) {
-                console.log('Something went wrong!', err);
+                console.log("Something went wrong!", err);
             });
     }
 }
+
+
+
 
 function getSongsOfPlaylists(data){
     var songs = data.body.tracks.items;
