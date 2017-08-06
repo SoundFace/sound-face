@@ -20,6 +20,7 @@ spotifyApi.setAccessToken('BQDKXZUYps-QGWAvYQR7wgLNklkVyGL-l5YGpQWyJG2Jeq26Wo927
 var userEmotion;
 var userSongs;
 var userId;
+var userPlaylist;
 
 function songsHandler(emotion, songs){
     userEmotion = emotion;
@@ -36,10 +37,27 @@ function userDetailsHandlers(data){
     spotifyApi.createPlaylist(userId, 'Sound Face Playlist: '+userEmotion, { 'public' : false })
         .then(function(data) {
             console.log(data);
+            userPlaylist = data.body.id;
+            console.log("created playlist");
+            addTracks();
         }, function(err) {
             console.log('Something went wrong!', err);
         });
 }
+
+function addTracks(){
+    var tracks = [];
+    for(var i = 0; i < userSongs.length; i++){
+        tracks.push("spotify:track:"+userSongs[i]);
+    }
+    spotifyApi.addTracksToPlaylist(userId, userPlaylist, tracks)
+        .then(function(data) {
+            console.log('Added tracks to playlist!');
+        }, function(err) {
+            console.log('Something went wrong!', err);
+        });
+}
+
 
 /*
 // Create a private playlist

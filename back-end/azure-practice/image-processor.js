@@ -7,13 +7,28 @@
 const oxfordEmotion = require("node-oxford-emotion")("6ca9f844861d4ae4b6cdb372db4e8fb7");
 const serverImageGetterUrl = "https://3697d57a.ngrok.io/getImage";
 var img;
+var lastRequestTime;
 
 function processImage(req, res){
-    res.end();
-    img = req.body.img;
-    //return;
-    var initializeSpotifyModule = require('../spotify-practice-alternate/app').initializeSpotifyModule;
-    oxfordEmotion.recognize("url", serverImageGetterUrl, initializeSpotifyModule);
+    if(lastRequestTime === undefined){
+        lastRequestTime = new Date();
+        res.end();
+        img = req.body.img;
+        //return;
+        var initializeSpotifyModule = require('../spotify-practice-alternate/app').initializeSpotifyModule;
+        oxfordEmotion.recognize("url", serverImageGetterUrl, initializeSpotifyModule);
+    } else {
+        var now = new Date();
+        if(now - lastRequestTime > 20000){
+            res.end();
+            img = req.body.img;
+            //return;
+            var initializeSpotifyModule = require('../spotify-practice-alternate/app').initializeSpotifyModule;
+            oxfordEmotion.recognize("url", serverImageGetterUrl, initializeSpotifyModule);
+        }
+        console.log("too early");
+    }
+
 }
 
 function returnImage(req, res){
