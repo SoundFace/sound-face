@@ -35,22 +35,17 @@ export class HomePage {
     if (!this.loginState) {
       this.logout();
     }
-    // this.startCamera();
-  }
-
-  startCamera(){
-        // let react = {x: 40, y: 100, width: this.calcWidth ,height: 220}   //Decrepted due to previous code
-    this.cameraPreview.startCamera({x: 0, y: 0, width: window.innerWidth, height: window.innerHeight, toBack: true, previewDrag: false, tapPhoto: true});
-        //.startCamera(react, defaultCamera:'back',tapEnabled: true, dragEnabled: true, toBack:true, alpha:1);  //Decrepeted        
   }
 
   takePicture() {
     this.camera.getPicture({
-      quality: 40,
+      quality: 25,
       destinationType: 0,
       encodingType: 0,
       mediaType: 0,
       sourceType: 1,
+      targetWidth: 1000,
+      targetHeight: 1000,
       cameraDirection: 1,
       correctOrientation: true
     }).then((imageData) => {
@@ -61,11 +56,13 @@ export class HomePage {
 
   getFromLibrary() {
     this.camera.getPicture({
-      quality: 40,
+      quality: 25,
       destinationType: 0,
       encodingType: 0,
       mediaType: 0,
       sourceType: 0,
+      targetWidth: 1000,
+      targetHeight: 1000,
       cameraDirection: 1,
       correctOrientation: true
     }).then((imageData) => {
@@ -74,9 +71,7 @@ export class HomePage {
     });
   }
 
-  // FROM AN EXAMPLE
   postRequest(image) {
-    //let hello = 'data:image/jpeg;base64,' + String(image);
     console.log(image);
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
@@ -84,11 +79,43 @@ export class HomePage {
       img : image
     };
 
-    this.http.post("https://2203bb20.ngrok.io/processImage", JSON.stringify(body), {headers : headers})
+    this.http.post("https://3697d57a.ngrok.io/processImage", JSON.stringify(body), {headers : headers})
       .map(res => res.json())
       .subscribe(data => {
         console.log(data);
       });
+    
+    this.getRequest();
+  }
+
+  getRequest() {
+    this.http.get("https://3697d57a.ngrok.io/getList")
+      .map(res => res.json())
+      .subscribe(data => {
+        console.log(data);
+      });
+    
+    this.listen();
+  }
+
+  listen() {
+    var xhttp;
+    var countdown = 25;
+    var receivedMsg;
+    xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+      while (!receivedMsg && countdown > 0) {
+        setTimeout(function() {
+          if (this.readyState == 4 && this.status == 200) {
+            receivedMsg = this;
+            console.log("MESSAGE RECEIVED");
+            this.emotionAlert(this);
+          }}, 10000);
+        countdown--;
+      }
+    };
+    xhttp.open("POST", "https://3697d57a.ngrok.io/processImage", true);
+    xhttp.send();
   }
 
   showPlaylist() {
@@ -108,18 +135,19 @@ export class HomePage {
     }
     let alert = this.alertCtrl.create({
       title: emotion,
-      message: 'SoundFace detected' + emotion + '! Do you want to see your playlist?',
-      buttons: ['Yes','No']
+      message: 'SoundFace detected' + emotion + '! Your playlist is ready.',
+      buttons: ['Listen']
     });
     alert.present()
   }
 
   logout() {
-    // insert Spotify logout stuff
+    // insert Spotify logout/authentication
     this.loginState = true;
     this.navCtrl.push(Login);
   }
-goToSettings() {
-  this.navCtrl.push(Settings);
+
+  goToSettings() {
+    this.navCtrl.push(Settings);
   }
 }

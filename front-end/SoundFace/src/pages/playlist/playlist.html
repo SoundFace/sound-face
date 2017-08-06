@@ -1,34 +1,28 @@
 <ion-content padding id="ioncontent" class="bg-style">
 
   <ion-fab top left class="mainmenu" >
-    <button ion-fab class="tabs" color="light" (click)="goHome()"><ion-icon name="close"></ion-icon></button>
+    <button ion-fab class="tabs" color="light" (click)="goHome()"><ion-icon name="arrow-back"></ion-icon></button>
   </ion-fab>
 
   <div style="margin-top: 86px;">
     <div class="mood-title">
       <h1>Happy</h1>
     </div>
-    <ion-list style="margin-top: 28px;">
-      <button ion-item *ngFor="let song of moodplaylist" (click)="playTrack(song)">
-      <h2>{{ song.name }}</h2>
-    </button>
-    </ion-list>
+    <div style="margin-top: 28px;">
+      <button ion-button block (click)="playPlaylist()" icon-start>
+        <ion-icon name="play"></ion-icon>
+        Play this Playlist
+      </button>
+      <ion-list style="margin-top: 16px;">
+        <button ion-item *ngFor="let song of moodplaylist" (click)="playTrack(song)">
+        <h2>{{ song.name }}</h2>
+      </button>
+      </ion-list>
+    </div>
   </div>
 
   <button ion-button block>
     Create Playlist
   </button>
-
-  <!--
-  <ion-fab bottom right>
-    <button ion-fab (click)="switchCamera()" color="dark" round icon-only>
-      <ion-icon name='switch'></ion-icon>
-    </button>
-  </ion-fab>
-  
-  <div class="viewscope">
-    <img id="view" width="100%" />
-  </div>
-  -->
 
 </ion-content>
