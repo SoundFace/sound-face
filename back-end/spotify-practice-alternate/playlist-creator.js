@@ -36,9 +36,9 @@ function userDetailsHandlers(data){
     userId = data.body.id;
     spotifyApi.createPlaylist(userId, 'Sound Face Playlist: '+userEmotion, { 'public' : false })
         .then(function(data) {
-            console.log(data);
+            //console.log(data);
             userPlaylist = data.body.id;
-            console.log("created playlist");
+            //console.log("created playlist");
             addTracks();
         }, function(err) {
             console.log('Something went wrong!', err);
@@ -48,9 +48,10 @@ function userDetailsHandlers(data){
 function addTracks(){
     var tracks = [];
     for(var i = 0; i < userSongs.length; i++){
-        tracks.push("spotify:track:"+userSongs[i]);
+        tracks.push("spotify:track:"+userSongs[i].id);
     }
-    spotifyApi.addTracksToPlaylist(userId, userPlaylist, tracks)
+    console.log(tracks);
+    spotifyApi.addTracksToPlaylist('gokhanpicgeta', userPlaylist, tracks)
         .then(function(data) {
             console.log('Added tracks to playlist!');
         }, function(err) {

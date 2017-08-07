@@ -90,8 +90,7 @@ app.get('/login', function(req, res) {
     res.cookie(stateKey, state);
 
     // your application requests authorization
-    //var scope = 'playlist-read-private playlist-modify-private playlist-modify-public user-library-read user-library-modify user-top-read user-follow-read';
-    var scope  = 'user-read-private user-read-email playlist-read-private user-top-read'
+    var scope = 'playlist-read-private playlist-modify-private playlist-modify-public user-library-read user-library-modify user-top-read user-follow-read user-read-private user-read-email playlist-read-private user-top-read';
     res.redirect('https://accounts.spotify.com/authorize?' +
         querystring.stringify({
             response_type: 'code',
@@ -195,7 +194,7 @@ var spotifyApi = new SpotifyWebApi({
     redirectUri : redirect_uri
 });
 
-spotifyApi.setAccessToken('BQDKXZUYps-QGWAvYQR7wgLNklkVyGL-l5YGpQWyJG2Jeq26Wo927Nf0qNydcSPRdlt5jK3PrEgF-wZeFd22muKEZqUew64-FWxy4Fe7uI7uFXAXzME740aTQkR_ZpfjGJT9wngkZ6mW3xXYGeY0Gc2Rf6Qq1ZAu_UO-HdSzMCeHcTrpRFOcgBMkbEyzaecSFfC87RYrUyMAHUyzyQZVgem5FpxnYgFMGAUSOaRNR7KjMQg4Tph0jX1bU_t7vf-L2P8HDcauJ2peAzacGBc6-6Y&refresh_token=AQD7qe9kvyH_QI7HxvtqwuY6rKO5kD29TmhCdo8RpnrJR22IdQvtwsdb3WExrNNF5kuE6KJJAvP7djaJo8gp2bDSJVn0cJzdiSO8UFxTnaL5YTmGqOfc-QnENjVb9bk_sS8');
+spotifyApi.setAccessToken('BQA2qrswQyVlZlPNuI0FR4TnujhEJ9cW8DJo6fX_glzLFsWABbTPGSqbBbPrw6LelhUdYNQOoHgBxXHdzbOaiBrPApkX3gMx_2rJFaOPA8rNADdklNH4e9xyl49gVnHlK9eZlSRerbuiNYkHiOK0eRHjnsQLBlH5l5rU9CILsH79pKPUe8W5OqKRtPAop4AkborsoCRA5xjLN4e7jZtPMB7BLt3-9qO44G1rUsyyovvY4-7LMooYJ2IpEX9ZseAcXmYDyM3EJGcmuYeLXigHkUepTD0vubNjdu8xGPWeMytovRE&refresh_token=AQBNWEbe62jDa3ARzAmop0TBFEiqJw2grS0yLRN18FKfyTkN3cBozQfGM2-tm3ZSnYsM6u9GqfJkSgetH72RPIanJ1cCgP0PnmH9gB_8I83mZd_DUAJ_cyqCdz2y6MpFf08');
 
 
 
